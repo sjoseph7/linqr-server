@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const GroupSchema = new mongoose.Schema(
   {
     // path: { type: String, required: true },
+    redirect: { type: String, required: false },
     // groupId: { type: String, required: true },
     // originalName: { type: String, required: true },
     // downloadCount: { type: Number, required: true, default: 0 },

@@ -1,4 +1,4 @@
-const File = require("../../models/File");
+const File = require("../../../models/File");
 const deleteFileLocally = require("./utils/deleteFileLocally");
 
 module.exports = async (req, res) => {

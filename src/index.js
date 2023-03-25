@@ -1,11 +1,12 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const downloadOneFile = require("./controllers/downloadOneFile");
-const deleteOneFile = require("./controllers/deleteOneFile");
-const uploadManyFiles = require("./controllers/uploadManyFiles");
-const getManyFiles = require("./controllers/getManyFiles");
+const downloadOneFile = require("./controllers/files/downloadOneFile");
+const deleteOneFile = require("./controllers/files/deleteOneFile");
+const uploadManyFiles = require("./controllers/files/uploadManyFiles");
+const getManyFiles = require("./controllers/files/getManyFiles");
 const cors = require("cors");
+const createGroup = require("./controllers/groups/createGroup");
 const app = express();
 
 mongoose.connect(process.env.MONGO_URI);
@@ -19,7 +20,7 @@ app.get("/groups/:groupId/files", getManyFiles);
 app.delete("/groups/:groupId/files/:fileId", deleteOneFile);
 
 // Groups
-app.post("/groups", (req, res, next) => {});
+app.post("/groups", createGroup);
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {

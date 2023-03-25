@@ -1,5 +1,5 @@
 const multer = require("multer");
-const File = require("../models/File");
+const File = require("../../models/File");
 
 const upload = multer({ dest: "uploads" });
 
@@ -10,7 +10,7 @@ module.exports = [
 
     // Attempt to upload files
     const fileStatuses = await Promise.all(
-      req.files.map(async (file) => {
+      (req.files || []).map(async (file) => {
         const { path, originalname: name } = file;
         const fileData = { path, name, groupId };
 

@@ -1,4 +1,4 @@
-const File = require("../models/File");
+const File = require("../../models/File");
 
 module.exports = async (req, res) => {
   const { groupId, fileId } = req.params;

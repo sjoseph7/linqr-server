@@ -1,5 +1,5 @@
 const multer = require("multer");
-const File = require("../models/File");
+const File = require("../../models/File");
 
 const upload = multer({ dest: "uploads" });
 
