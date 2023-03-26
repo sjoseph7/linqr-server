@@ -22,6 +22,10 @@ app.delete("/groups/:groupId/files/:fileId", deleteOneFile);
 // Groups
 app.post("/groups", createGroup);
 
+app.use((err, req, res, next) => {
+  return res.status(500).json({ success: false, err: "Something went wrong." });
+});
+
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
   console.info(`Listening on port ${port}`);
