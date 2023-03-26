@@ -1,5 +1,5 @@
 const File = require("../../../models/File");
-const deleteFileLocally = require("./utils/deleteFileLocally");
+const deleteFile = require("./utils/deleteFile");
 
 module.exports = async (req, res) => {
   const { groupId, fileId } = req.params;
@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
       });
 
     // Ensure the file is deleted _before_ deleting the file's record
-    const success = deleteFileLocally(file.path);
+    const success = deleteFile(file.slug);
     if (!success) throw Error();
 
     await File.deleteOne({ _id: fileId });

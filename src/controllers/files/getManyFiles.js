@@ -4,7 +4,7 @@ module.exports = async (req, res) => {
   const { groupId } = req.params;
 
   try {
-    const files = await File.find({ groupId }).select("-path");
+    const files = await File.find({ groupId }).select("-slug -__v");
     if (!files) throw Error();
 
     return res.status(200).json({ success: true, files });
