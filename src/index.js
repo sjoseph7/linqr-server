@@ -12,6 +12,9 @@ const app = express();
 mongoose.connect(process.env.MONGO_URI);
 app.use(cors());
 
+// Health endpoint
+app.get("/health", (req, res) => res.sendStatus(200));
+
 // Files
 // app.post("/groups/:id/files/upload", upload.single("file"), uploadOneFile);
 app.post("/groups/:id/files/upload", uploadManyFiles);
