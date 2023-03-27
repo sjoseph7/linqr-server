@@ -8,7 +8,7 @@ const upload = multer({ storage });
 module.exports = [
   upload.array("files"),
   async (req, res) => {
-    const { id: groupId } = req.params;
+    const { groupId } = req.params;
     let results;
 
     // Attempt to upload files to AWS S3

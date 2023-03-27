@@ -1,14 +1,63 @@
 const express = require("express");
 const fileRouter = require("./routes/file.routes");
+const Link = require("./models/Link");
 // const groupRouter = require("./routes/group.routes");
 
 module.exports = class LinkingService {
-  static init(app) {
+  static init() {
     const router = express.Router();
 
-    router.use("/groups/:groupId/files", fileRouter);
-    // router.use("/groups", groupRouter);
+    router.post("/", express.json(), async (req, res) => {
+      const { deviceId, groupId } = req.body;
 
+      if (!deviceId)
+        return res
+          .status(400)
+          .json({ success: false, err: "deviceId not provided" });
+      if (!groupId)
+        return res
+          .status(400)
+          .json({ success: false, err: "groupId not provided" });
+
+      try {
+        const newLink = await Link.create({ deviceId, groupId });
+        return res.status(200).json({ success: true, link: newLink });
+      } catch (err) {
+        console.error(err);
+        return res
+          .status(500)
+          .json({ success: false, err: "something went wrong" });
+      }
+    });
+
+    router.get("/devices/:id", express.json(), async (req, res) => {
+      const { id: deviceId } = req.params;
+
+      if (!deviceId)
+        return res
+          .status(400)
+          .json({ success: false, err: "deviceId not provided" });
+
+      try {
+        const link = await Link.findOne({ deviceId });
+        if (!link)
+          return res.status(404).json({
+            success: false,
+            err: `no device with id '${deviceId}' found`,
+          });
+
+        return res.status(200).json({ success: true, link });
+      } catch (err) {
+        console.error(err);
+        return res
+          .status(500)
+          .json({ success: false, err: "something went wrong" });
+      }
+    });
+
+    router.use("/groups", fileRouter);
+
+    console.log("LinkingService initialized.");
     return router;
   }
 };

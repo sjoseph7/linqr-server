@@ -1,5 +1,6 @@
 require("dotenv").config();
 const cors = require("cors");
+const morgan = require("morgan");
 
 const express = require("express");
 const app = express();
@@ -12,12 +13,13 @@ mongoose.connect(process.env.MONGO_URI);
 
 // Protect express app
 app.use(cors());
-
-// 'Link' routes
-app.use("/link", LinkingService.init());
+app.use(morgan("dev"));
 
 // Health endpoint
 app.get("/health", (req, res) => res.sendStatus(200));
+
+// 'Link' routes
+app.use("/link", LinkingService.init());
 
 // Final error handler
 app.use((err, req, res, next) => {
