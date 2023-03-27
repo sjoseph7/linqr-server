@@ -1,4 +1,4 @@
-const ezKey = require("../../utils/ezKey");
+const ezKey = require("../../../../../utils/ezKey");
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
 const { AWS_BUCKET_NAME } = process.env;

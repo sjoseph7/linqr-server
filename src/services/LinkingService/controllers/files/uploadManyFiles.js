@@ -1,6 +1,6 @@
 const multer = require("multer");
 const File = require("../../models/File");
-const { uploadManyToS3 } = require("../utils/uploadManyToS3");
+const { uploadManyToS3 } = require("./utils/uploadManyToS3");
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -21,9 +21,10 @@ module.exports = [
       results = await uploadManyToS3(files, groupId);
     } catch (err) {
       console.error(err);
-      return res
-        .status(500)
-        .json({ success: false, err: "unable to upload files" });
+      return res.status(500).json({
+        success: false,
+        err: "unable to upload files",
+      });
     }
 
     const fileStatuses = await Promise.all(
