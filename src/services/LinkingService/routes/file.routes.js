@@ -7,9 +7,9 @@ const deleteOneFile = require("../controllers/files/deleteOneFile");
 const fileRouter = express.Router();
 
 fileRouter
-  .post("/:groupId/files/upload", uploadManyFiles)
-  .get("/:groupId/files/", getManyFiles)
-  .get("/:groupId/files/:fileId", downloadOneFile)
-  .delete("/:groupId/files/:fileId", deleteOneFile);
+  .post("/:collectionId/files/upload", uploadManyFiles)
+  .get("/:collectionId/files/", getManyFiles)
+  .get("/:collectionId/files/:fileId", downloadOneFile)
+  .delete("/:collectionId/files/:fileId", deleteOneFile);
 
 module.exports = fileRouter;

@@ -8,7 +8,7 @@ const upload = multer({ storage });
 module.exports = [
   upload.array("files"),
   async (req, res) => {
-    const { groupId } = req.params;
+    const { collectionId } = req.params;
     let results;
 
     // Attempt to upload files to AWS S3
@@ -18,7 +18,7 @@ module.exports = [
         return res
           .status(400)
           .json({ success: false, err: "no file(s) provided" });
-      results = await uploadManyToS3(files, groupId);
+      results = await uploadManyToS3(files, collectionId);
     } catch (err) {
       console.error(err);
       return res.status(500).json({
@@ -35,7 +35,7 @@ module.exports = [
 
         const slug = result.Key;
         const name = result.file.originalname;
-        const fileData = { name, groupId, slug };
+        const fileData = { name, collectionId, slug };
 
         try {
           const file = await File.create(fileData);
@@ -45,7 +45,7 @@ module.exports = [
           console.error(err);
           return {
             success: false,
-            file: { name, groupId },
+            file: { name, collectionId },
             err: "unable to upload file",
           };
         }

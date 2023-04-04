@@ -2,10 +2,10 @@ const File = require("../../../models/File");
 const deleteFile = require("./utils/deleteFile");
 
 module.exports = async (req, res) => {
-  const { groupId, fileId } = req.params;
+  const { collectionId, fileId } = req.params;
 
   try {
-    const file = await File.findOne({ _id: fileId, groupId }).catch((_) => {});
+    const file = await File.findOne({ _id: fileId, collectionId }).catch();
     if (!file)
       return res.status(404).json({
         success: false,

@@ -4,12 +4,12 @@ const File = require("../../models/File");
 const s3Client = new S3Client();
 
 module.exports = async (req, res) => {
-  const { groupId, fileId } = req.params;
+  const { collectionId, fileId } = req.params;
   let file;
 
   try {
     file = await File.findOneAndUpdate(
-      { _id: fileId, groupId },
+      { _id: fileId, collectionId },
       { $inc: { downloadCount: 1 } },
       { new: true }
     );

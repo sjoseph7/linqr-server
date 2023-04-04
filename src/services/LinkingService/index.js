@@ -1,26 +1,28 @@
 const express = require("express");
 const fileRouter = require("./routes/file.routes");
 const Link = require("./models/Link");
-// const groupRouter = require("./routes/group.routes");
 
 module.exports = class LinkingService {
   static init() {
     const router = express.Router();
 
     router.post("/", express.json(), async (req, res) => {
-      const { deviceId, groupId } = req.body;
+      const { deviceId, collectionId } = req.body;
 
       if (!deviceId)
         return res
           .status(400)
           .json({ success: false, err: "deviceId not provided" });
-      if (!groupId)
+      if (!collectionId)
         return res
           .status(400)
-          .json({ success: false, err: "groupId not provided" });
+          .json({ success: false, err: "collectionId not provided" });
 
       try {
-        const newLink = await Link.create({ deviceId, groupId });
+        const newLink = await Link.create({
+          deviceId,
+          collectionId: collectionId,
+        });
         return res.status(200).json({ success: true, link: newLink });
       } catch (err) {
         console.error(err);
@@ -55,7 +57,7 @@ module.exports = class LinkingService {
       }
     });
 
-    router.use("/groups", fileRouter);
+    router.use("/collections", fileRouter);
 
     console.log("LinkingService initialized.");
     return router;

@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const LinkSchema = new mongoose.Schema(
   {
-    groupId: { type: String, required: true },
     deviceId: { type: String, required: true },
+    collectionId: { type: String, required: true },
   },
   { timestamps: true }
 );

@@ -4,13 +4,13 @@ const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const { AWS_BUCKET_NAME } = process.env;
 
 // Help from -> https://www.youtube.com/watch?v=jwp4U6v-3h4
-exports.uploadManyToS3 = async function (files, groupId) {
+exports.uploadManyToS3 = async function (files, collectionId) {
   const s3Client = new S3Client();
 
   const Bucket = AWS_BUCKET_NAME;
   const params = files.map((file) => ({
     Bucket,
-    Key: `${groupId}/${ezKey()}-${file.originalname}`,
+    Key: `${collectionId}/${ezKey()}-${file.originalname}`,
     Body: file.buffer,
   }));
 

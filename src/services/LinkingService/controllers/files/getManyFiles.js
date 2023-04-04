@@ -1,10 +1,10 @@
 const File = require("../../models/File");
 
 module.exports = async (req, res) => {
-  const { groupId } = req.params;
+  const { collectionId } = req.params;
 
   try {
-    const files = await File.find({ groupId }).select("-slug -__v");
+    const files = await File.find({ collectionId }).select("-slug -__v");
     if (!files) throw Error();
 
     return res.status(200).json({ success: true, files });
@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
     console.error(err);
     return res.status(500).json({
       success: false,
-      err: `unable to find files from group '${groupId}'`,
+      err: `unable to find files from collection '${collectionId}'`,
     });
   }
 };
