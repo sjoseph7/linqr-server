@@ -1,6 +1,8 @@
 const express = require("express");
 const fileRouter = require("./routes/file.routes");
 const Link = require("./models/Link");
+const Collection = require("./models/Collection");
+const generateUniqueName = require("../../utils/generateUniqueName");
 
 module.exports = class LinkingService {
   static init() {
@@ -18,10 +20,26 @@ module.exports = class LinkingService {
           .status(400)
           .json({ success: false, err: "collectionId not provided" });
 
+      // Check if the collection exists
+      try {
+        const existingCollection = await Collection.findOne({
+          slug: collectionId,
+        }).catch();
+        if (!existingCollection)
+          await Collection.create({
+            name: generateUniqueName(),
+            slug: collectionId,
+          });
+      } catch (err) {
+        return res
+          .status(500)
+          .json({ success: false, err: "something went wrong" });
+      }
+
       try {
         const newLink = await Link.create({
           deviceId,
-          collectionId: collectionId,
+          collectionId,
         });
         return res.status(200).json({ success: true, link: newLink });
       } catch (err) {
